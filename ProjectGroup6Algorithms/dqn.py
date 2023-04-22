@@ -52,6 +52,10 @@ class DQNAgent(BaseAgent):
             action_space=self.action_size
         )
 
+    @property
+    def evaluation_model(self):
+        return self.model
+
     def model_summary(self):
         """
         """
@@ -71,7 +75,7 @@ class DQNAgent(BaseAgent):
         if np.random.random() <= self.epsilon:
             return random.randrange(self.action_size)
         else:
-            return np.argmax(self.model.predict(state, verbose=0))
+            return np.argmax(self.evaluation_model.predict(state, verbose=0))
 
     def replay(self):
         """
@@ -156,7 +160,7 @@ class DQNAgent(BaseAgent):
         score = 0
         while not done:
             self.env.render()
-            action = np.argmax(self.model.predict(state, verbose=0))
+            action = np.argmax(self.evaluation_model.predict(state, verbose=0))
             next_state, reward, done, _ = self.env.step(action)
             state = np.reshape(next_state, [1, self.state_size])
             score += 1

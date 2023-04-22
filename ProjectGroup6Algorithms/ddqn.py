@@ -45,6 +45,12 @@ class DDQNAgent(DQNAgent):
             action_space=self.action_size
         )
 
+    @property
+    def evaluation_model(self):
+        """
+        """
+        return self.target_model
+
     def update_target_model(self):
         """after some time interval update the target model to be same with model
         """
